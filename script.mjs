@@ -5,7 +5,8 @@
 // You can't open the index.html file using a file:// URL.
 
 import { countUsers } from "./common.mjs";
-import { getUserIDs } from "./data.mjs";
+import { getUserIDs, getQuestions } from "./data.mjs";
+
 
 window.onload = function () {
   //document.querySelector("body").innerText = `There are ${countUsers()} users`;
@@ -16,7 +17,7 @@ window.onload = function () {
   userSelect.id = "userSelect";
   userLabel.setAttribute("for",'userSelect');
   defaultOption.value='';
-  defaultOption.textContent='please select a user :'
+  defaultOption.textContent='Please select a user :'
 
   
   document.body.appendChild(userLabel);
@@ -33,6 +34,8 @@ window.onload = function () {
      userSelect.appendChild(userOption);
 
   });
+
+  console.log(getQuestions);
 
 
 };
