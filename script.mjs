@@ -5,7 +5,34 @@
 // You can't open the index.html file using a file:// URL.
 
 import { countUsers } from "./common.mjs";
+import { getUserIDs } from "./data.mjs";
 
 window.onload = function () {
-  document.querySelector("body").innerText = `There are ${countUsers()} users`;
+  //document.querySelector("body").innerText = `There are ${countUsers()} users`;
+  const userSelect=document.createElement("select");
+  const userLabel=document.createElement("label");
+  const defaultOption=document.createElement("option");
+  
+  userSelect.id = "userSelect";
+  userLabel.setAttribute("for",'userSelect');
+  defaultOption.value='';
+  defaultOption.textContent='please select a user :'
+
+  
+  document.body.appendChild(userLabel);
+  document.body.appendChild(userSelect);
+  userSelect.appendChild(defaultOption);
+
+  //Adding user select list options
+  const userList=getUserIDs();
+  console.log(userList);
+  userList.forEach((userId) => {
+     const userOption=document.createElement("option");
+     userOption.value=userId;
+     userOption.textContent=`User ${userId}`;
+     userSelect.appendChild(userOption);
+
+  });
+
+
 };
