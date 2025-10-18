@@ -24,12 +24,12 @@ window.onload = function () {
   userSelect.appendChild(defaultOption);
 
   //Adding user select list options
-  const userList=getUserIDs();
-  console.log(userList);
-  userList.forEach((userId) => {
+  const userIDs=getUserIDs();//get array of userid
+  console.log(userIDs);
+  userIDs.forEach((id) => {
      const userOption=document.createElement("option");
-     userOption.value=userId;
-     userOption.textContent=`User ${userId}`;
+     userOption.value=id;
+     userOption.textContent=`User ${id}`;
      userSelect.appendChild(userOption);
 
   });
