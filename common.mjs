@@ -10,8 +10,9 @@ export function userHistory(userEvent){
    userEvent.forEach(event => {
         const songCount=(userHistoryMap.get(event.song_id)?.count || 0) + 1;
         const songTime = (userHistoryMap.get(event.song_id)?.time || 0)  + getSong(event.song_id).duration_seconds;
-                
-        userHistoryMap.set(event.song_id, { count: songCount , time : songTime});
+        const artist=getSong(event.song_id).artist;        
+        const genre=getSong(event.song_id).genre;
+        userHistoryMap.set(event.song_id, { count: songCount , time : songTime , artist : artist , genre : genre});
    });
    
 return userHistoryMap;
