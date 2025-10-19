@@ -1,5 +1,5 @@
 import { getUserIDs } from "./data.mjs";
-import { getQuestions } from "./data.mjs";
+import { getQuestions, getSong } from "./data.mjs";
 
 export const countUsers = () => getUserIDs().length;
 
@@ -9,8 +9,9 @@ export function userHistory(userEvent){
    const userHistoryMap=new Map();
    userEvent.forEach(event => {
         const songCount=(userHistoryMap.get(event.song_id)?.count || 0) + 1;
-                 
-        userHistoryMap.set(event.song_id, { count: songCount });
+        const songTime = (userHistoryMap.get(event.song_id)?.time || 0)  + getSong(event.song_id).duration_seconds;
+                
+        userHistoryMap.set(event.song_id, { count: songCount , time : songTime});
    });
    
 return userHistoryMap;
