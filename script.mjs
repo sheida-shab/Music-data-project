@@ -38,19 +38,31 @@ window.onload = function () {
   //Adding userHistory Section to present details(questions and answers)
   userSelect.addEventListener("change",(event)=>{
     const selectedUserEvents=getListenEvents(event.target.value);//return a key-value array of objects which represents selected user listened songs detail
+    if(selectedUserEvents.length===0){
+      const oldDL = document.querySelector("dl");
+      if (oldDL) {oldDL.remove();
+        const message=document.createElement("p");
+        message.textContent = "This user has no listening history.";
+        document.body.appendChild(message);
+        return;
+      }
+    }
     const selectedUserHistory=userHistory(selectedUserEvents);//return a value-key array of objects(map structure) grouped by songID
     const selectedUserMost=findTheMost(selectedUserHistory);//return an object contains the answer of first 4 questions
-    console.log(selectedUserMost.mostListenedArtistByCount);
-    
     const descriptionList=document.createElement("dl");
-    const questionDT=document.createElement("dt");
-    questionDT.textContent=getQuestions("Q1");
-    const answerDD=document.createElement("dd");
-    answerDD.textContent=selectedUserMost.mostListenedArtistByCount;
-   
-    descriptionList.appendChild(questionDT);
-    descriptionList.appendChild(answerDD);
-    
+
+
+    Object.entries(selectedUserMost).forEach(([key,value])=>{
+      const questionDT = document.createElement("dt");
+      questionDT.textContent = key;
+      const answerDD = document.createElement("dd");
+      answerDD.textContent = value;
+      descriptionList.appendChild(questionDT);
+      descriptionList.appendChild(answerDD);
+
+    });
+
+        
     const oldDL=document.querySelector("dl");
     if(oldDL){oldDL.remove()};
     document.body.appendChild(descriptionList);
@@ -63,7 +75,7 @@ window.onload = function () {
   // console.log(getQuestions);
   // console.log(getListenEvents("1"));
   // console.log(userHistory(getListenEvents("1")));
-  // console.log(findTheMost(userHistory(getListenEvents("1"))));
+   console.log(findTheMost(userHistory(getListenEvents("1"))));
 
 
 };
