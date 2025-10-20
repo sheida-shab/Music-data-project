@@ -22,20 +22,40 @@ return Array.from(userHistoryMap);//change map structure to array for using arra
 
 //This function calculate the most song user x listened in terms of count and time
 export function findTheMost(userHistoryArray){
+    if (userHistoryArray.length ===0 ){return null;}
     console.log(userHistoryArray[0][0]);
     console.log(userHistoryArray[0][1]);
     console.log(userHistoryArray[0][1].count);
-   const mostListenedSong = userHistoryArray.reduce((max, songData) => {
+    const mostListenedSong = userHistoryArray.reduce((max, songData) => {
       const songName = songData[1].title;
-      const artistName=songData[1].artist;
+      const artistName = songData[1].artist;
       const count = songData[1].count;
-
-      if (!max || count > max.count) {
-       return {name:songName , count : count , artist:artistName}
+      const time = songData[1].time;
+      //max initial value : a nested object
+      if (!max) {
+        return {
+          maxCountSongDetail: {
+            name: songName,
+            count: count,
+            artist: artistName,
+          },
+          maxTimeSongDetail: { name: songName, time: time, artist: artistName },
+        };
       }
-      return max;
-    },null);
-return mostListenedSong.artist+'-'+mostListenedSong.name;
-  
+      //finding and updating max count played song
+      if (count > max.maxCountSongDetail.count) {
+         max.maxCountSongDetail = {name: songName,count: count, artist: artistName};
+      }
 
+   //finding and updating max time played  song
+      if (time > max.maxTimeSongDetail.time) {
+         max.maxTimeSongDetail={ name: songName, time: time, artist: artistName };
+      }
+
+      return max; //a nested object
+    },null);
+return  {mostListenedByCount:mostListenedSong.maxCountSongDetail.artist+'-'+mostListenedSong.maxCountSongDetail.name,
+         mostListenedByTime:mostListenedSong.maxTimeSongDetail.artist+'-'+mostListenedSong.maxTimeSongDetail.name
+};
+  
 }
