@@ -116,7 +116,7 @@ export function filterFridayNightSongs(userEvent) {
     const hour = eventDate.getHours();
     return (
       (day === 5 && hour >=17) ||
-      (day===6 && hour<=4)
+      (day===6 && hour<4)
       
     );
   });
