@@ -124,47 +124,57 @@ export function filterFridayNightSongs(userEvent) {
   return fridayNightSongs;
 }
 
+// Finds the song with the longest streak (i.e. most times listened in a row)
 export function findLongestStreak(userEvent) {
-    let currentSongId,currentStreak,maxStreak;
-   
-    currentSongId = userEvent[0].song_id;
-    currentStreak = 1;
-    maxStreak=1;
+  let currentSongId, currentStreak, maxStreak;
 
-     const maxStreakInfo = {
-       song_id: currentSongId,
-       title: getSong(currentSongId).title,
-       artist: getSong(currentSongId).artist,
-       count: 1,
-     };
-    
-     for(let i=1;i<userEvent.length;i++){
-      const event=userEvent[i];
-      if(event.song_id===currentSongId){
-        currentStreak++;
-      } else {
-       if(currentStreak>maxStreak){
-        maxStreakInfo.song_id=currentSongId;
-        maxStreakInfo.artist = getSong(currentSongId).artist;
-        maxStreakInfo.title = getSong(currentSongId).title;
-        maxStreakInfo.count=currentStreak;
-        currentSongId=event.song_id;
-        maxStreak=currentStreak;
-        
-       }
-       currentSongId=event.song_id; 
-       currentStreak=1;
+  // Initialize with the first song in the event list
+  currentSongId = userEvent[0].song_id;
+  currentStreak = 1;
+  maxStreak = 1;
 
-      }
-      }
+  // Store info about the current longest streak
+  const maxStreakInfo = {
+    song_id: currentSongId,
+    title: getSong(currentSongId).title,
+    artist: getSong(currentSongId).artist,
+    count: 1,
+  };
+
+  // Iterate over all listening events starting from the second one
+  for (let i = 1; i < userEvent.length; i++) {
+    const event = userEvent[i];
+    if (event.song_id === currentSongId) {
+      currentStreak++;
+    } else {
+      // If streak ends, check if it was the longest so far
       if (currentStreak > maxStreak) {
+        // Update stored info about the longest streak
         maxStreakInfo.song_id = currentSongId;
-        maxStreakInfo.title = getSong(currentSongId).title;
         maxStreakInfo.artist = getSong(currentSongId).artist;
+        maxStreakInfo.title = getSong(currentSongId).title;
         maxStreakInfo.count = currentStreak;
-      }
-      return maxStreakInfo;
 
-     }
+        // Update maximum streak count
+        maxStreak = currentStreak;
+      }
+
+      // Reset for a new song
+      currentSongId = event.song_id;
+      currentStreak = 1;
+    }
+  }
+
+  // After the loop, check one last time in case the last streak is the longest
+  if (currentStreak > maxStreak) {
+    maxStreakInfo.song_id = currentSongId;
+    maxStreakInfo.title = getSong(currentSongId).title;
+    maxStreakInfo.artist = getSong(currentSongId).artist;
+    maxStreakInfo.count = currentStreak;
+  }
+
+  // Return the information about the song with the longest consecutive streak
+  return maxStreakInfo;
+}
 
 
