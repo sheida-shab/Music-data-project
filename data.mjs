@@ -9,7 +9,7 @@ const questions = {
   Q4: ">>What was the user’s most often listened to artist according to listening time?",
   Q5: ">>What was the user’s most often listened to song on Friday nights (between 5 PM and 4 AM) according to the number of listens?",
   Q6: ">>What was the user’s most often listened to song on Friday nights (between 5 PM and 4 AM) according to listening time?",
-  Q7: ">>What song did the user listen to the most times in a row?",
+  Q7: ">>What song did the user listen to the most times in a row?How many times was it listened to?",
   Q8: ">>Are there any songs the user listened to every day?",
   Q9: ">>What were the user’s top three genres by number of listens?",
 };

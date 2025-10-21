@@ -95,7 +95,7 @@ window.onload = function () {
     });
     // --- Then,add Friday night data ---
     const selectedUserFridayEvents = filterFridayNightSongs(selectedUserEvents);
-    if(selectedUserFridayEvents.length>0){
+    if (selectedUserFridayEvents.length > 0) {
       // Get user friday nights history and find 'most listened' information
       const selectedUserFridayHistory = userHistory(selectedUserFridayEvents);
       const selectedUserFridayMost = findTheMost(selectedUserFridayHistory);
@@ -105,21 +105,32 @@ window.onload = function () {
         mostListenedByTime: "Q6",
       };
 
-      Object.entries(selectedUserFridayMost).forEach(([key,value]) =>{
-        if(fridayQuestionMap[key]){
-          const fridayDT=document.createElement("dt");
-          fridayDT.textContent=getQuestions(fridayQuestionMap[key]);
-          const fridayDD=document.createElement("dd");
-          fridayDD.textContent=value;
+      Object.entries(selectedUserFridayMost).forEach(([key, value]) => {
+        if (fridayQuestionMap[key]) {
+          const fridayDT = document.createElement("dt");
+          fridayDT.textContent = getQuestions(fridayQuestionMap[key]);
+          const fridayDD = document.createElement("dd");
+          fridayDD.textContent = value;
           descriptionList.appendChild(fridayDT);
           descriptionList.appendChild(fridayDD);
         }
-
-      })
+      });
     }
 
+    //get longest streak info
+    const longestStreakInfo = findLongestStreak(selectedUserEvents);
 
+    // Create question (dt)
+    const longestDT = document.createElement("dt");
+    longestDT.textContent = getQuestions("Q7");
 
+    // Create answer (dd)
+    const longestDD = document.createElement("dd");
+    longestDD.textContent = `${longestStreakInfo.artist} - ${longestStreakInfo.title} (length: ${longestStreakInfo.count})`;
+
+    // Add both to the description list
+    descriptionList.appendChild(longestDT);
+    descriptionList.appendChild(longestDD);
 
     document.body.appendChild(descriptionList);
   });    
