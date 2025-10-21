@@ -4,7 +4,12 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { countUsers, userHistory, findTheMost } from "./common.mjs";
+import {
+  countUsers,
+  userHistory,
+  findTheMost,
+  filterFridayNightSongs,
+} from "./common.mjs";
 import { getUserIDs, getQuestions, getListenEvents } from "./data.mjs";
 
 
@@ -64,11 +69,14 @@ window.onload = function () {
     // Map technical keys to actual question IDs using getQuestions()
     const questionMap = {
       mostListenedByCount: "Q1",
-      mostListenedArtistByCount: "Q2",
-      mostListenedByTime: "Q4",
+      mostListenedByTime: "Q2",
+      mostListenedArtistByCount: "Q3",
       mostListenedArtistByTime: "Q4",
+      mostListenedByCountOnFridayNight: "Q5",
+      mostListenedByTimeOnFridayNight: "Q6",
     };
 
+    // --- First,add all-week data ---
     Object.entries(selectedUserMost).forEach(([key, value]) => {
       const questionDT = document.createElement("dt");
       // If the key exists in questionMap, use getQuestions() to get the question text
@@ -84,15 +92,45 @@ window.onload = function () {
       descriptionList.appendChild(questionDT);
       descriptionList.appendChild(answerDD);
     });
+    // --- Then,add Friday night data ---
+    const selectedUserFridayEvents = filterFridayNightSongs(selectedUserEvents);
+    if(selectedUserFridayEvents.length>0){
+      // Get user friday nights history and find 'most listened' information
+      const selectedUserFridayHistory = userHistory(selectedUserFridayEvents);
+      const selectedUserFridayMost = findTheMost(selectedUserFridayHistory);
+
+      const fridayQuestionMap = {
+        mostListenedByCount: "Q5",
+        mostListenedByTime: "Q6",
+      };
+
+      Object.entries(selectedUserFridayMost).forEach(([key,value]) =>{
+        if(fridayQuestionMap[key]){
+          const fridayDT=document.createElement("dt");
+          fridayDT.textContent=getQuestions(fridayQuestionMap[key]);
+          const fridayDD=document.createElement("dd");
+          fridayDD.textContent=value;
+          descriptionList.appendChild(fridayDT);
+          descriptionList.appendChild(fridayDD);
+        }
+
+      })
+    }
+
+
+
 
     document.body.appendChild(descriptionList);
   });    
     
 
-   // console.log(getQuestions);
-  // console.log(getListenEvents("1"));
-  // console.log(userHistory(getListenEvents("1")));
-   console.log(findTheMost(userHistory(getListenEvents("1"))));
+   console.log(getQuestions);
+  console.log(getListenEvents("3"));
+  console.log(filterFridayNightSongs(getListenEvents("3")));
+  console.log(userHistory(filterFridayNightSongs(getListenEvents("3"))));
+  console.log(
+    findTheMost(userHistory(filterFridayNightSongs(getListenEvents("3"))))
+  );
 
 
 };

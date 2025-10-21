@@ -3,13 +3,15 @@ export function getUserIDs() { return ["1", "2", "3", "4"]; }
 //This is a function that gets question id and  returns the question text 
 export function getQuestions(qID){  
 const questions = {
-  Q1: ">>What was the user’s most often listened to song?",
-  Q2: ">>What was the user’s most often listened to artist?",
-  Q3: ">>What was the user’s most often listened to song on Friday nights?",
-  Q4: ">>What are the above questions using listening time rather than number of listens?",
-  Q5: ">>What song did the user listen to the most times in a row?",
-  Q6: ">>Are there any songs the user listened to every day?",
-  Q7: ">>What were the user’s top three genres by number of listens?",
+  Q1: ">>What was the user’s most often listened to song according to the number of listens?",
+  Q2: ">>What was the user’s most often listened to song according to listening time?",
+  Q3: ">>What was the user’s most often listened to artist according to the number of listens?",
+  Q4: ">>What was the user’s most often listened to artist according to listening time?",
+  Q5: ">>What was the user’s most often listened to song on Friday nights (between 5 PM and 4 AM) according to the number of listens?",
+  Q6: ">>What was the user’s most often listened to song on Friday nights (between 5 PM and 4 AM) according to listening time?",
+  Q7: ">>What song did the user listen to the most times in a row?",
+  Q8: ">>Are there any songs the user listened to every day?",
+  Q9: ">>What were the user’s top three genres by number of listens?",
 };
 
 return questions[qID];
