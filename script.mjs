@@ -69,8 +69,8 @@ window.onload = function () {
     // Map technical keys to actual question IDs using getQuestions()
     const questionMap = {
       mostListenedByCount: "Q1",
-      mostListenedArtistByCount: "Q2",
-      mostListenedByTime: "Q4",
+      mostListenedByTime: "Q2",
+      mostListenedArtistByCount: "Q3",
       mostListenedArtistByTime: "Q4",
     };
 
