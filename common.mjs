@@ -123,3 +123,48 @@ export function filterFridayNightSongs(userEvent) {
 
   return fridayNightSongs;
 }
+
+export function findLongestStreak(userEvent) {
+    let currentSongId,currentStreak,maxStreak;
+   
+    currentSongId = userEvent[0].song_id;
+    currentStreak = 1;
+    maxStreak=1;
+
+     const maxStreakInfo = {
+       song_id: currentSongId,
+       title: getSong(currentSongId).title,
+       artist: getSong(currentSongId).artist,
+       count: 1,
+     };
+    
+     for(let i=1;i<userEvent.length;i++){
+      const event=userEvent[i];
+      if(event.song_id===currentSongId){
+        currentStreak++;
+      } else {
+       if(currentStreak>maxStreak){
+        maxStreakInfo.song_id=currentSongId;
+        maxStreakInfo.artist = getSong(currentSongId).artist;
+        maxStreakInfo.title = getSong(currentSongId).title;
+        maxStreakInfo.count=currentStreak;
+        currentSongId=event.song_id;
+        maxStreak=currentStreak;
+        
+       }
+       currentSongId=event.song_id; 
+       currentStreak=1;
+
+      }
+      }
+      if (currentStreak > maxStreak) {
+        maxStreakInfo.song_id = currentSongId;
+        maxStreakInfo.title = getSong(currentSongId).title;
+        maxStreakInfo.artist = getSong(currentSongId).artist;
+        maxStreakInfo.count = currentStreak;
+      }
+      return maxStreakInfo;
+
+     }
+
+
