@@ -4,7 +4,12 @@
 // Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
 // You can't open the index.html file using a file:// URL.
 
-import { countUsers, userHistory, findTheMost } from "./common.mjs";
+import {
+  countUsers,
+  userHistory,
+  findTheMost,
+  filterFridayNightSongs,
+} from "./common.mjs";
 import { getUserIDs, getQuestions, getListenEvents } from "./data.mjs";
 
 
@@ -89,10 +94,13 @@ window.onload = function () {
   });    
     
 
-   // console.log(getQuestions);
-  // console.log(getListenEvents("1"));
-  // console.log(userHistory(getListenEvents("1")));
-   console.log(findTheMost(userHistory(getListenEvents("1"))));
+   console.log(getQuestions);
+  console.log(getListenEvents("1"));
+  console.log(filterFridayNightSongs(getListenEvents("1")));
+  console.log(userHistory(filterFridayNightSongs(getListenEvents("1"))));
+  console.log(
+    findTheMost(userHistory(filterFridayNightSongs(getListenEvents("1"))))
+  );
 
 
 };

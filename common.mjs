@@ -25,10 +25,8 @@ export function findTheMost(userHistoryArray){
   if (userHistoryArray.length === 0) {
     return null;
   }
-  console.log(userHistoryArray[0][0]);
-  console.log(userHistoryArray[0][1]);
-  console.log(userHistoryArray[0][1].count);
-  const mostListenedSong = userHistoryArray.reduce((max, songData) => {
+
+    const mostListenedSong = userHistoryArray.reduce((max, songData) => {
     const songName = songData[1].title;
     const artistName = songData[1].artist;
     const count = songData[1].count;
@@ -109,4 +107,17 @@ export function findTheMost(userHistoryArray){
     mostListenedArtistByCount: maxCountArtist.artist,
     mostListenedArtistByTime: maxTimeArtist.artist,
   };
+}
+
+export function filterFridayNightSongs(userEvent) {
+  const fridayNightSongs = userEvent.filter((songs) => {
+    const eventDate = new Date(songs.timestamp);
+    return (
+      eventDate.getDay() === 5 &&
+      eventDate.getHours() >= 4 &&
+      eventDate.getHours() <= 17
+    );
+  });
+
+  return fridayNightSongs;
 }
