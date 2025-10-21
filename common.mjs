@@ -112,10 +112,12 @@ export function findTheMost(userHistoryArray){
 export function filterFridayNightSongs(userEvent) {
   const fridayNightSongs = userEvent.filter((songs) => {
     const eventDate = new Date(songs.timestamp);
+    const day = eventDate.getDay();
+    const hour = eventDate.getHours();
     return (
-      eventDate.getDay() === 5 &&
-      eventDate.getHours() >= 4 &&
-      eventDate.getHours() <= 17
+      (day === 5 && hour >=17) ||
+      (day===6 && hour<=4)
+      
     );
   });
 
