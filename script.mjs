@@ -72,8 +72,11 @@ window.onload = function () {
       mostListenedByTime: "Q2",
       mostListenedArtistByCount: "Q3",
       mostListenedArtistByTime: "Q4",
+      mostListenedByCountOnFridayNight: "Q5",
+      mostListenedByTimeOnFridayNight: "Q6",
     };
 
+    // --- First,add all-week data ---
     Object.entries(selectedUserMost).forEach(([key, value]) => {
       const questionDT = document.createElement("dt");
       // If the key exists in questionMap, use getQuestions() to get the question text
@@ -89,6 +92,33 @@ window.onload = function () {
       descriptionList.appendChild(questionDT);
       descriptionList.appendChild(answerDD);
     });
+    // --- Then,add Friday night data ---
+    const selectedUserFridayEvents = filterFridayNightSongs(selectedUserEvents);
+    if(selectedUserFridayEvents.length>0){
+      // Get user friday nights history and find 'most listened' information
+      const selectedUserFridayHistory = userHistory(selectedUserFridayEvents);
+      const selectedUserFridayMost = findTheMost(selectedUserFridayHistory);
+
+      const fridayQuestionMap = {
+        mostListenedByCount: "Q5",
+        mostListenedByTime: "Q6",
+      };
+
+      Object.entries(selectedUserFridayMost).forEach(([key,value]) =>{
+        if(fridayQuestionMap[key]){
+          const fridayDT=document.createElement("dt");
+          fridayDT.textContent=getQuestions(fridayQuestionMap[key]);
+          const fridayDD=document.createElement("dd");
+          fridayDD.textContent=value;
+          descriptionList.appendChild(fridayDT);
+          descriptionList.appendChild(fridayDD);
+        }
+
+      })
+    }
+
+
+
 
     document.body.appendChild(descriptionList);
   });    
