@@ -37,40 +37,56 @@ window.onload = function () {
 
   //Adding userHistory Section to present details(questions and answers)
   userSelect.addEventListener("change",(event)=>{
-   const selectedUserEvents=getListenEvents(event.target.value);//return a key-value array of objects which represents selected user listened songs detail
-  
-   //clear previous user outputs in page
-   const oldDL = document.querySelector("dl");
-   if (oldDL) oldDL.remove();
-   const oldMsg = document.querySelector("p");
-   if (oldMsg) oldMsg.remove();
-   
-   //checking user history is  empty
-   if(selectedUserEvents.length===0){
-        const message=document.createElement("p");
-        message.textContent = "This user has no listening history.";
-        document.body.appendChild(message);
-        return;
-      }
-  //if user history is not empty build the description list
+    // Get all listen events for the selected user
+    const selectedUserEvents = getListenEvents(event.target.value);
 
-    const selectedUserHistory=userHistory(selectedUserEvents);//return a value-key array of objects(map structure) grouped by songID
-    const selectedUserMost=findTheMost(selectedUserHistory);//return an object contains the answer of first 4 questions
-    const descriptionList=document.createElement("dl");//create description list to show key-value (question and answer)
+    // Remove any existing <dl> or message <p> from previous selections
+    const oldDL = document.querySelector("dl");
+    if (oldDL) oldDL.remove();
+    const oldMsg = document.querySelector("p");
+    if (oldMsg) oldMsg.remove();
 
+    // If user has no listening history, show a message and stop
+    if (selectedUserEvents.length === 0) {
+      const message = document.createElement("p");
+      message.textContent = "This user has no listening history.";
+      document.body.appendChild(message);
+      return;
+    }
 
-    Object.entries(selectedUserMost).forEach(([key,value])=>{
+    // Get user history and find 'most listened' information
+    const selectedUserHistory = userHistory(selectedUserEvents);
+    const selectedUserMost = findTheMost(selectedUserHistory);
+
+    // Create a description list to display questions and answers
+    const descriptionList = document.createElement("dl");
+
+    // Map technical keys to actual question IDs using getQuestions()
+    const questionMap = {
+      mostListenedByCount: "Q1",
+      mostListenedArtistByCount: "Q2",
+      mostListenedByTime: "Q4",
+      mostListenedArtistByTime: "Q4",
+    };
+
+    Object.entries(selectedUserMost).forEach(([key, value]) => {
       const questionDT = document.createElement("dt");
-      questionDT.textContent = key;
+      // If the key exists in questionMap, use getQuestions() to get the question text
+      if (questionMap[key]) {
+        questionDT.textContent = getQuestions(questionMap[key]);
+      } else {
+        // Otherwise, display the key name
+        questionDT.textContent = key;
+      }
+
       const answerDD = document.createElement("dd");
       answerDD.textContent = value;
       descriptionList.appendChild(questionDT);
       descriptionList.appendChild(answerDD);
-
     });
 
     document.body.appendChild(descriptionList);
-    });    
+  });    
     
 
    // console.log(getQuestions);
