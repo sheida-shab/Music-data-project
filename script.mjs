@@ -18,33 +18,33 @@ import { getUserIDs, getQuestions, getListenEvents } from "./data.mjs";
 
 window.onload = function () {
   //document.querySelector("body").innerText = `There are ${countUsers()} users`;
-  const userSelect=document.createElement("select");
-  const userLabel=document.createElement("label");
-  const defaultOption=document.createElement("option");
-  
-  userSelect.id = "userSelect";
-  userLabel.setAttribute("for",'userSelect');
-  defaultOption.value='';
-  defaultOption.textContent='Please select a user :'
+  const userSelect = document.createElement("select");
+  const userLabel = document.createElement("label");
+  const defaultOption = document.createElement("option");
 
-  
+  userSelect.id = "userSelect";
+  userLabel.setAttribute("for", "userSelect");
+  userLabel.textContent = "Please select a user :    ";
+  defaultOption.value = "";
+  defaultOption.textContent = "";
+
+
   document.body.appendChild(userLabel);
   document.body.appendChild(userSelect);
   userSelect.appendChild(defaultOption);
 
   //Adding user select list options
-  const userIDs=getUserIDs();//get array of userid
-  
-  userIDs.forEach((id) => {
-     const userOption=document.createElement("option");
-     userOption.value=id;
-     userOption.textContent=`User ${id}`;
-     userSelect.appendChild(userOption);
+  const userIDs = getUserIDs(); //get array of userid
 
+  userIDs.forEach((id) => {
+    const userOption = document.createElement("option");
+    userOption.value = id;
+    userOption.textContent = `User ${id}`;
+    userSelect.appendChild(userOption);
   });
 
   //Adding userHistory Section to present details(questions and answers)
-  userSelect.addEventListener("change",(event)=>{
+  userSelect.addEventListener("change", (event) => {
     // Get all listen events for the selected user
     const selectedUserEvents = getListenEvents(event.target.value);
 
@@ -137,7 +137,7 @@ window.onload = function () {
     //Get songs the user listened to every day
     const everydaySongs = findEverydayListenedSong(selectedUserEvents);
 
-    if(everydaySongs.length>0){
+    if (everydaySongs.length > 0) {
       // Create question (dt)
       const everydayDT = document.createElement("dt");
       everydayDT.textContent = getQuestions("Q8");
@@ -152,31 +152,28 @@ window.onload = function () {
     }
 
     //get top 3 genres
-     const topGenres=findTopGenres(selectedUserHistory);
-     const topGenresNumber=topGenres.length;
-     if(topGenresNumber>0){
-       // Create question (dt)
-       const genreDT = document.createElement("dt");
-       genreDT.textContent = `>>What were the user’s top ${topGenresNumber} genre${
-         topGenresNumber > 1 ? "s" : ""
-       }  to listen to by number of listens?`;
+    const topGenres = findTopGenres(selectedUserHistory);
+    const topGenresNumber = topGenres.length;
+    if (topGenresNumber > 0) {
+      // Create question (dt)
+      const genreDT = document.createElement("dt");
+      genreDT.textContent = `>>What were the user’s top ${topGenresNumber} genre${
+        topGenresNumber > 1 ? "s" : ""
+      }  to listen to by number of listens?`;
 
-       const genreDD = document.createElement("dd");
-       genreDD.textContent = topGenres.join(", ");
+      const genreDD = document.createElement("dd");
+      genreDD.textContent = topGenres.join(", ");
 
-       // Add both to the description list
-       descriptionList.appendChild(genreDT);
-       descriptionList.appendChild(genreDD);
-     }
+      // Add both to the description list
+      descriptionList.appendChild(genreDT);
+      descriptionList.appendChild(genreDD);
+    }
 
     document.body.appendChild(descriptionList);
-  });    
-    
+  });
 
   console.log(getQuestions);
   console.log(getListenEvents("1"));
-  console.log(userHistory((getListenEvents("1"))));
-  console.log(findTopGenres(userHistory((getListenEvents("2")))));
-
-
+  console.log(userHistory(getListenEvents("1")));
+  console.log(findTopGenres(userHistory(getListenEvents("2"))));
 };
