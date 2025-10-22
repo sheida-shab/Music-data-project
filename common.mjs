@@ -177,4 +177,43 @@ export function findLongestStreak(userEvent) {
   return maxStreakInfo;
 }
 
+export function findEverydayListenedSong(userEvent){
+  //create a Map to group songs by date
+  const groupSongsByDate = new Map();
 
+  userEvent.forEach((event) => {
+    // Extract date part from timestamp (YYYY-MM-DD)
+    const eventDate = event.timestamp.split("T")[0];
+
+    // initialize a Set for this date if it doesn't exist
+    if (!groupSongsByDate.has(eventDate)) {
+      groupSongsByDate.set(eventDate, new Set());
+    }
+
+    // add the song to the Set for this date
+    groupSongsByDate.get(eventDate).add(event.song_id);
+  });
+  // Convert the Map of Sets into an array of Sets
+  const sets = Array.from(groupSongsByDate.values());
+
+  // Find the intersection of all Sets (songs listened to every day)
+   let commonSongs=new Set(sets[0]);   //song of first day
+
+   for(let i=1;i<sets.length;i++){
+     const tempSongSet = new Set(); //// temporary set to store intersection
+     for (const song of commonSongs) {
+       // if the song is also in the next day's set, keep it
+       if (sets[i].has(song)) {
+         tempSongSet.add(song);
+       }
+     }
+     // update commonSongs with the intersection result
+     commonSongs = tempSongSet;
+   }
+   const result=[...commonSongs].map(song_id => {
+    const songDetail=getSong(song_id);
+    return `${songDetail.artist}-${songDetail.title}`;
+   });
+
+  return result;
+}

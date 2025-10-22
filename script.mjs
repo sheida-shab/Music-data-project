@@ -10,6 +10,7 @@ import {
   findTheMost,
   filterFridayNightSongs,
   findLongestStreak,
+  findEverydayListenedSong,
 } from "./common.mjs";
 import { getUserIDs, getQuestions, getListenEvents } from "./data.mjs";
 
@@ -138,7 +139,7 @@ window.onload = function () {
 
    console.log(getQuestions);
   console.log(getListenEvents("1"));
-  console.log(findLongestStreak(getListenEvents("1")));
+  console.log(findEverydayListenedSong(getListenEvents("3")));
   // console.log(filterFridayNightSongs(getListenEvents("1")));
   // console.log(userHistory(filterFridayNightSongs(getListenEvents("1"))));
   // console.log(
