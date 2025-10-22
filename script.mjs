@@ -151,6 +151,24 @@ window.onload = function () {
       descriptionList.appendChild(everydayDD);
     }
 
+    //get top 3 genres
+     const topGenres=findTopGenres(selectedUserHistory);
+     const topGenresNumber=topGenres.length;
+     if(topGenresNumber>0){
+       // Create question (dt)
+       const genreDT = document.createElement("dt");
+       genreDT.textContent = `>>What were the user’s top ${topGenresNumber} genre${
+         topGenresNumber > 1 ? "s" : ""
+       }  to listen to by number of listens?`;
+
+       const genreDD = document.createElement("dd");
+       genreDD.textContent = topGenres.join(", ");
+
+       // Add both to the description list
+       descriptionList.appendChild(genreDT);
+       descriptionList.appendChild(genreDD);
+     }
+
     document.body.appendChild(descriptionList);
   });    
     
