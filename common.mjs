@@ -177,4 +177,75 @@ export function findLongestStreak(userEvent) {
   return maxStreakInfo;
 }
 
+export function findEverydayListenedSong(userEvent){
+  //create a Map to group songs by date
+  const groupSongsByDate = new Map();
 
+  userEvent.forEach((event) => {
+    // Extract date part from timestamp (YYYY-MM-DD)
+    const eventDate = event.timestamp.split("T")[0];
+
+    // initialize a Set for this date if it doesn't exist
+    if (!groupSongsByDate.has(eventDate)) {
+      groupSongsByDate.set(eventDate, new Set());
+    }
+
+    // add the song to the Set for this date
+    groupSongsByDate.get(eventDate).add(event.song_id);
+  });
+  // Convert the Map of Sets into an array of Sets
+  const sets = Array.from(groupSongsByDate.values());
+
+  // Find the intersection of all Sets (songs listened to every day)
+   let commonSongs=new Set(sets[0]);   //song of first day
+
+   for(let i=1;i<sets.length;i++){
+     const tempSongSet = new Set(); //// temporary set to store intersection
+     for (const song of commonSongs) {
+       // if the song is also in the next day's set, keep it
+       if (sets[i].has(song)) {
+         tempSongSet.add(song);
+       }
+     }
+     // update commonSongs with the intersection result
+     commonSongs = tempSongSet;
+   }
+   const result=[...commonSongs].map(song_id => {
+    const songDetail=getSong(song_id);
+    return `${songDetail.artist}-${songDetail.title}`;
+   });
+
+  return result;
+}
+
+export function findTopGenres(userHistory){
+  const genreTotals = {}; // Object to store total listens per genre
+
+  // Loop through each record in userHistory
+  for (const record of userHistory) {
+    const genre = record[1].genre; // Get genre of the current song
+    const genreCount = record[1].count; // Get count of listens for the current song
+
+    // Initialize genre in genreTotals if it doesn't exist
+    if (!genreTotals[genre]) {
+      genreTotals[genre] = 0;
+    }
+
+    // Add current song's count to the total for its genre
+    genreTotals[genre] += genreCount;
+  }
+
+  // Convert the genreTotals object to an array of [genre, totalCount] pairs
+  const genreTotalsArray = Object.entries(genreTotals);
+
+  // Sort the array in descending order based on total listens
+  const sortedArray = genreTotalsArray.sort((a, b) => b[1] - a[1]);
+
+  // Extract only the genre names from the sorted array
+  const topGenreNames = sortedArray.map((a) => a[0]);
+
+  // Take the top 3 genres
+  const top3Genres = topGenreNames.slice(0, 3);
+
+  return top3Genres; // Return array of top 3 genre names
+}

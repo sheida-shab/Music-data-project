@@ -10,6 +10,8 @@ import {
   findTheMost,
   filterFridayNightSongs,
   findLongestStreak,
+  findEverydayListenedSong,
+  findTopGenres,
 } from "./common.mjs";
 import { getUserIDs, getQuestions, getListenEvents } from "./data.mjs";
 
@@ -132,18 +134,49 @@ window.onload = function () {
     descriptionList.appendChild(longestDT);
     descriptionList.appendChild(longestDD);
 
+    //Get songs the user listened to every day
+    const everydaySongs = findEverydayListenedSong(selectedUserEvents);
+
+    if(everydaySongs.length>0){
+      // Create question (dt)
+      const everydayDT = document.createElement("dt");
+      everydayDT.textContent = getQuestions("Q8");
+
+      // Create answer (dd)
+      const everydayDD = document.createElement("dt");
+      everydayDD.textContent = everydaySongs.join(", ");
+
+      // Add both to the description list
+      descriptionList.appendChild(everydayDT);
+      descriptionList.appendChild(everydayDD);
+    }
+
+    //get top 3 genres
+     const topGenres=findTopGenres(selectedUserHistory);
+     const topGenresNumber=topGenres.length;
+     if(topGenresNumber>0){
+       // Create question (dt)
+       const genreDT = document.createElement("dt");
+       genreDT.textContent = `>>What were the user’s top ${topGenresNumber} genre${
+         topGenresNumber > 1 ? "s" : ""
+       }  to listen to by number of listens?`;
+
+       const genreDD = document.createElement("dd");
+       genreDD.textContent = topGenres.join(", ");
+
+       // Add both to the description list
+       descriptionList.appendChild(genreDT);
+       descriptionList.appendChild(genreDD);
+     }
+
     document.body.appendChild(descriptionList);
   });    
     
 
-   console.log(getQuestions);
+  console.log(getQuestions);
   console.log(getListenEvents("1"));
-  console.log(findLongestStreak(getListenEvents("1")));
-  // console.log(filterFridayNightSongs(getListenEvents("1")));
-  // console.log(userHistory(filterFridayNightSongs(getListenEvents("1"))));
-  // console.log(
-  //   findTheMost(userHistory(filterFridayNightSongs(getListenEvents("1"))))
-  // );
+  console.log(userHistory((getListenEvents("1"))));
+  console.log(findTopGenres(userHistory((getListenEvents("2")))));
 
 
 };
