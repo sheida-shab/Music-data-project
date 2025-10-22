@@ -232,7 +232,11 @@ export function findTopGenres(userHistory){
     genreTotals[genre] += genreCount;
 
   }
+  const genreTotalsArray= Object.entries(genreTotals);
+  const sortedArray=genreTotalsArray.sort((a,b)=>b[1]-a[1]);
+  const topGenreNames=sortedArray.map(a=>a[0]);
+  const top3Genres=topGenreNames.slice(0,3) ;
 
-  return genreTotals;
+  return top3Genres;
 
 }

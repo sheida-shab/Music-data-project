@@ -158,7 +158,7 @@ window.onload = function () {
   console.log(getQuestions);
   console.log(getListenEvents("1"));
   console.log(userHistory((getListenEvents("1"))));
-  console.log(findTopGenres(userHistory((getListenEvents("1")))));
+  console.log(findTopGenres(userHistory((getListenEvents("2")))));
 
 
 };
