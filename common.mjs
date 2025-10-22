@@ -219,24 +219,33 @@ export function findEverydayListenedSong(userEvent){
 }
 
 export function findTopGenres(userHistory){
-  const genreTotals={};
+  const genreTotals = {}; // Object to store total listens per genre
 
-  for(const record of userHistory){
-    const genre = record[1].genre;
-    const genreCount = record[1].count;
+  // Loop through each record in userHistory
+  for (const record of userHistory) {
+    const genre = record[1].genre; // Get genre of the current song
+    const genreCount = record[1].count; // Get count of listens for the current song
 
-    if (!genreTotals[genre]){
-      genreTotals[genre]=0;
+    // Initialize genre in genreTotals if it doesn't exist
+    if (!genreTotals[genre]) {
+      genreTotals[genre] = 0;
     }
 
+    // Add current song's count to the total for its genre
     genreTotals[genre] += genreCount;
-
   }
-  const genreTotalsArray= Object.entries(genreTotals);
-  const sortedArray=genreTotalsArray.sort((a,b)=>b[1]-a[1]);
-  const topGenreNames=sortedArray.map(a=>a[0]);
-  const top3Genres=topGenreNames.slice(0,3) ;
 
-  return top3Genres;
+  // Convert the genreTotals object to an array of [genre, totalCount] pairs
+  const genreTotalsArray = Object.entries(genreTotals);
 
+  // Sort the array in descending order based on total listens
+  const sortedArray = genreTotalsArray.sort((a, b) => b[1] - a[1]);
+
+  // Extract only the genre names from the sorted array
+  const topGenreNames = sortedArray.map((a) => a[0]);
+
+  // Take the top 3 genres
+  const top3Genres = topGenreNames.slice(0, 3);
+
+  return top3Genres; // Return array of top 3 genre names
 }
