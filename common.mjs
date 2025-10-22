@@ -217,3 +217,22 @@ export function findEverydayListenedSong(userEvent){
 
   return result;
 }
+
+export function findTopGenres(userHistory){
+  const genreTotals={};
+
+  for(const record of userHistory){
+    const genre = record[1].genre;
+    const genreCount = record[1].count;
+
+    if (!genreTotals[genre]){
+      genreTotals[genre]=0;
+    }
+
+    genreTotals[genre] += genreCount;
+
+  }
+
+  return genreTotals;
+
+}
