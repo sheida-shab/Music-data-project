@@ -133,13 +133,30 @@ window.onload = function () {
     descriptionList.appendChild(longestDT);
     descriptionList.appendChild(longestDD);
 
+    //Get songs the user listened to every day
+    const everydaySongs = findEverydayListenedSong(selectedUserEvents);
+
+    if(everydaySongs.length>0){
+      // Create question (dt)
+      const everydayDT = document.createElement("dt");
+      everydayDT.textContent = getQuestions("Q8");
+
+      // Create answer (dd)
+      const everydayDD = document.createElement("dt");
+      everydayDD.textContent = everydaySongs.join(", ");
+
+      // Add both to the description list
+      descriptionList.appendChild(everydayDT);
+      descriptionList.appendChild(everydayDD);
+    }
+
     document.body.appendChild(descriptionList);
   });    
     
 
    console.log(getQuestions);
   console.log(getListenEvents("1"));
-  console.log(findEverydayListenedSong(getListenEvents("3")));
+  console.log(findEverydayListenedSong(getListenEvents("2")));
   // console.log(filterFridayNightSongs(getListenEvents("1")));
   // console.log(userHistory(filterFridayNightSongs(getListenEvents("1"))));
   // console.log(
