@@ -154,14 +154,9 @@ window.onload = function () {
   });    
     
 
-   console.log(getQuestions);
+  console.log(getQuestions);
   console.log(getListenEvents("1"));
-  console.log(findEverydayListenedSong(getListenEvents("2")));
-  // console.log(filterFridayNightSongs(getListenEvents("1")));
-  // console.log(userHistory(filterFridayNightSongs(getListenEvents("1"))));
-  // console.log(
-  //   findTheMost(userHistory(filterFridayNightSongs(getListenEvents("1"))))
-  // );
+  console.log(userHistory((getListenEvents("1"))));
 
 
 };
