@@ -251,6 +251,7 @@ export function findEverydayListenedSong(userEvent){
 }
 
 //This function finds the top 3 most listened genres by the user
+//input parameter is output data of userHistory function
 export function findTopGenres(userHistory){
   const genreTotals = {}; // Object to store total plays per genre
 

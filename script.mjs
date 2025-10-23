@@ -22,7 +22,6 @@ window.onload = function () {
   defaultOption.value = "";
   defaultOption.textContent = "";
 
-
   document.body.appendChild(userLabel);
   document.body.appendChild(userSelect);
   userSelect.appendChild(defaultOption);
@@ -166,4 +165,43 @@ window.onload = function () {
     document.body.appendChild(descriptionList);
   });
 
+  console.log(getListenEvents("1")); // all songs listened by user 1
+
+  // userHistory : show a summary for user 1: group by each song with detail:total count , total time , artist name , song title, genre
+  console.log(
+    "userHistory function  output :",
+    userHistory(getListenEvents("1"))
+  );
+
+  //findTheMost : show the most listened by a user both in terms of count and total time group by artist and song
+  console.log(
+    "findTheMost function  output :",
+    findTheMost(userHistory(getListenEvents("1")))
+  );
+
+  //filterFridayNightSongs : filter friday nights from all songs listened by user 1
+  console.log(
+    "filterFridayNightSongs function  output :",
+    filterFridayNightSongs(getListenEvents("1"))
+  );
+
+  //findLongestStreak : show the longest streak details (an object) :
+  //i.e : {song_id: 'song-1', title: 'I Got Love', artist: 'The King Blues', count: 34}
+  console.log(
+    "findLongestStreak function  output :",
+    findLongestStreak(getListenEvents("1"))
+  );
+
+  // findEverydayListenedSong output is an array with "artist - title" format
+  // i.e : ['Frank Turner-Photosynthesis', 'The Divine Comedy-Tonight We Fly']
+  console.log(
+    "findEverydayListenedSong function  output :",
+    findEverydayListenedSong(getListenEvents("2"))
+  );
+
+  //show top 3 genres in array format : ['Pop', 'Folk', 'Punk']
+  console.log(
+    "findTopGenres function  output :",
+    findTopGenres(userHistory(getListenEvents("1")))
+  );
 };
