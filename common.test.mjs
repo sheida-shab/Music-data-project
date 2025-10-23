@@ -38,3 +38,4 @@ test("userHistory correctly groups and aggregates user event by song_id",()=>
   assert.strictEqual(song1.genre, "Punk", " Genre is correct"); 
   assert.strictEqual(song1.title, "I Got Love", "Title is correct"); 
 });
+
